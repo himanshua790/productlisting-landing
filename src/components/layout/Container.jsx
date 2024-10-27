@@ -3,7 +3,14 @@ import PropTypes from "prop-types";
 
 const Container = (props) => {
   return (
-    <Box sx={{ padding: "16px 80px 16px 80px", gap: "24px" }}>
+    <Box
+      sx={{
+        padding: "16px 80px",
+        gap: "24px",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       {props?.children}
     </Box>
   );
