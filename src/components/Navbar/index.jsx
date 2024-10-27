@@ -20,7 +20,7 @@ export default function Navbar() {
         sx={{
           alignItems: "center",
           paddingX: "auto",
-          justifyContent: "space-evenly",
+          justifyContent: "space-between",
           gap: "100px",
         }}
       >

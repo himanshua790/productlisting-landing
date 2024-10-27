@@ -8,6 +8,10 @@ const theme = createTheme({
     primary: {
       main: "#ffffff",
     },
+    text: {
+      primary: "#ffffff",
+      secondary: "#B3B3B3",
+    },
   },
   typography: {
     fontFamily: ["Inter", "Arial"].join(","),
