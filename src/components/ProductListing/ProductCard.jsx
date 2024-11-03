@@ -1,11 +1,18 @@
 import { Rating, Stack, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import ProductImage from "./ProductImage";
 
 const ProductCard = ({ product }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/product"); // Redirects to the product page
+  };
+
   return (
-    <Stack rowGap={"8px"}>
+    <Stack rowGap={"8px"} onClick={handleClick} sx={{ cursor: "pointer" }}>
       <ProductImage
         src={product.img}
         alt={product.imgAlt}
