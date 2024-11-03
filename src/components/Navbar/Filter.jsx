@@ -1,24 +1,125 @@
-import { Box } from "@mui/material";
-import React from "react";
+import { Box, Divider, Popover, Typography, Button } from "@mui/material";
+import React, { useContext, useState } from "react";
+import { PriceRange } from "../Filter/PriceRange";
+import CloseIcon from "@mui/icons-material/Close";
+import PlatformFilter from "../Filter/PlatformFilter";
+import { FilterContext } from "../../Context/FilterContext";
 
 const Filter = () => {
+  const {
+    applyFilters,
+    clearFilters,
+    setTempPriceRange,
+    setTempPlatform,
+    tempPriceRange,
+    tempPlatform,
+  } = useContext(FilterContext);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleFilterClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleFilterClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleApplyFilters = () => {
+    applyFilters();
+    handleFilterClose();
+  };
+
   return (
-    <Box
-      sx={{
-        borderRadius: "1000px", // Applied as per the original code
-        border: "2px solid white",
-        width: "40px",
-        height: "40px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        cursor: "pointer",
-        padding: "8px",
-        gap: "10px",
-      }}
-    >
-      <img src="/icons/adjustments.png" alt="Filter Icon" />
-    </Box>
+    <>
+      <Box
+        onClick={handleFilterClick}
+        sx={{
+          borderRadius: "1000px",
+          border: "2px solid white",
+          width: "40px",
+          height: "40px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          cursor: "pointer",
+          padding: "8px",
+          gap: "10px",
+        }}
+      >
+        <img src="/icons/adjustments.png" alt="Filter Icon" />
+      </Box>
+      <Popover
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleFilterClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        transformOrigin={{ vertical: -10, horizontal: "right" }}
+        slotProps={{
+          paper: {
+            sx: {
+              display: "flex",
+              flexDirection: "column",
+              backgroundColor: "#443E3E",
+              height: "45rem",
+              width: "35rem",
+              borderRadius: "12px",
+            },
+          },
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            minHeight: "64px",
+            padding: "20px",
+          }}
+        >
+          <CloseIcon
+            sx={{ cursor: "pointer" }}
+            fontSize="medium"
+            onClick={handleFilterClose}
+          />
+          <Typography
+            variant="body1"
+            fontWeight={700}
+            sx={{ width: "100%", textAlign: "center" }}
+          >
+            Filter
+          </Typography>
+        </Box>
+        <Divider variant="fullWidth" sx={{ borderColor: "#515151" }} />
+
+        {/* PriceRange component with temporary price range state */}
+        <PriceRange tempPriceRange={tempPriceRange} setTempPriceRange={setTempPriceRange} />
+
+        <Divider variant="middle" sx={{ borderColor: "#515151" }} />
+
+        {/* PlatformFilter component with temporary platform state */}
+        <PlatformFilter tempPlatform={tempPlatform} setTempPlatform={setTempPlatform} />
+
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            padding: "20px",
+          }}
+        >
+          <Button variant="text" onClick={clearFilters} sx={{ stroke: "red" }}>
+            Clear All
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleApplyFilters}
+          >
+            Apply
+          </Button>
+        </Box>
+      </Popover>
+    </>
   );
 };
 

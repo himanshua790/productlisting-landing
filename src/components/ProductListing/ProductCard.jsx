@@ -20,16 +20,16 @@ const ProductCard = ({ product }) => {
         </Typography>
         <Stack direction={"row"} spacing={"4px"}>
           <Rating
-            value={product.rating}
+            value={parseFloat(product.rating)}
             precision={0.5}
             readOnly
             sx={{ color: "white" }}
             size="small"
-          />{" "}
+          />
           <Typography variant="body2">{product.rating}</Typography>
         </Stack>
         <Typography fontSize={14} fontWeight={700}>
-          {product.pricingCurrency} {product.pricing.toFixed(2)}
+          {product.pricingCurrency} {product.pricing}
         </Typography>
       </Stack>
     </Stack>
@@ -44,8 +44,8 @@ ProductCard.propTypes = {
     subCategory: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     creatorName: PropTypes.string.isRequired,
-    rating: PropTypes.number,
-    pricing: PropTypes.number.isRequired,
+    rating: PropTypes.string,
+    pricing: PropTypes.string.isRequired,
     pricingCurrency: PropTypes.string.isRequired,
   }).isRequired,
 };

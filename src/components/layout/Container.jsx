@@ -5,10 +5,12 @@ const Container = (props) => {
   return (
     <Box
       sx={{
-        padding: "16px 80px",
+        margin: "16px auto",
         gap: "24px",
         display: "flex",
         flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       {props?.children}

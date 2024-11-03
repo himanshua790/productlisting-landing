@@ -1,14 +1,41 @@
+import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import { Box, Divider, TextField, Typography } from "@mui/material";
-import React, { useState } from "react";
+import {
+  Box,
+  Divider,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
+import React, { useContext, useState } from "react";
+import { FilterContext } from "../../Context/FilterContext";
 import CategoryPopover from "../Filter/CategoryPopover";
+import Filter from "./Filter";
 
 // Main SearchBar Component
 const SearchBar = () => {
+  const {
+    filter: { keyword, category },
+    setFilterKeyword,
+    setFilterCategory,
+  } = useContext(FilterContext);
   const [activeSection, setActiveSection] = useState("none");
   const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState(
+    category.length ? category : ["All"]
+  );
   const [selectedParent, setSelectedParent] = useState(null);
+  const [localKeyword, setLocalKeyword] = useState("");
+
+  const handleKeywordChange = (event) => {
+    const { value } = event.target;
+    setLocalKeyword(value);
+
+    if (event.key === "Enter") {
+      setFilterKeyword(localKeyword); // Update context keyword on Enter
+    }
+  };
 
   // Categories data
   const categories = {
@@ -30,8 +57,9 @@ const SearchBar = () => {
 
   // Open and close popover
   const handleFilterClick = (event) => {
+    event.stopPropagation();
     setActiveSection("category");
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget?.parentNode || event.currentTarget); // Set anchor to the parent element
   };
 
   const handleFilterClose = () => {
@@ -40,33 +68,31 @@ const SearchBar = () => {
     setActiveSection("none");
   };
 
-  const handleSearchFocus = () => setActiveSection("search");
-  const handleSearchBlur = () => setActiveSection("none");
-
+  // Handle parent hover
   const handleParentHover = (parent) => setSelectedParent(parent);
 
+  // Handle category selection (parent and child)
   const handleCategorySelect = (parentKey, childKey = null) => {
-    let selectedLabel;
-
-    if (childKey) {
-      if (childKey.includes("all_")) {
-        selectedLabel = parentKey;
-      } else {
-        const childLabel = categories[parentKey].find(
-          (child) => child.key === childKey
-        )?.label;
-        selectedLabel = `${childLabel}`;
-      }
-    } else {
-      selectedLabel = parentKey;
-    }
+    const selectedLabel = childKey
+      ? [
+          parentKey,
+          categories[parentKey].find((child) => child.key === childKey)?.label,
+        ]
+      : [parentKey];
 
     setSelectedCategory(selectedLabel);
+    setFilterCategory(selectedLabel); // Update the category filter in context
     handleFilterClose();
   };
 
+  // Submit search
+  const handleSearchSubmit = () => {
+    setFilterCategory(selectedCategory);
+    setFilterKeyword(localKeyword);
+  };
+
   return (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
+    <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
       {/* Search Box */}
       <Box
         sx={{
@@ -80,7 +106,6 @@ const SearchBar = () => {
       >
         {/* Search Input Field */}
         <Box
-          onClick={handleSearchFocus}
           sx={{
             paddingX: "32px",
             backgroundColor: activeSection === "search" ? "#443E3E" : "#2B2828",
@@ -91,18 +116,38 @@ const SearchBar = () => {
             width: "50%",
             cursor: "pointer",
           }}
+          onClick={() => setActiveSection("search")}
         >
           {activeSection === "search" ? (
             <TextField
               id="keyword-input"
               variant="standard"
+              value={localKeyword}
+              onChange={handleKeywordChange}
+              onBlur={() => setActiveSection("none")}
+              onFocus={() => setActiveSection("search")}
               slotProps={{
                 input: {
                   disableUnderline: true,
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="clear search"
+                        onClick={() => {
+                          setLocalKeyword("");
+                          setFilterKeyword("");
+                        }}
+                        edge="end"
+                      >
+                        {!!localKeyword && (
+                          <ClearOutlinedIcon sx={{ color: "white" }} />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
                 },
               }}
               fullWidth
-              onBlur={handleSearchBlur}
               autoFocus
             />
           ) : (
@@ -111,7 +156,7 @@ const SearchBar = () => {
                 Keyword
               </Typography>
               <Typography fontSize={16} fontWeight={400} color="text.secondary">
-                Search Adatoon
+                {keyword || "Search Abatoon"}
               </Typography>
             </Box>
           )}
@@ -129,7 +174,6 @@ const SearchBar = () => {
 
         {/* Filter Button */}
         <Box
-          onClick={handleFilterClick}
           sx={{
             display: "flex",
             alignItems: "center",
@@ -139,18 +183,21 @@ const SearchBar = () => {
             backgroundColor:
               activeSection === "category" ? "#443E3E" : "#2B2828",
             borderRadius: "100px",
-            cursor: "pointer",
           }}
         >
-          <Box>
+          <Box
+            sx={{ cursor: "pointer", width: "100%" }}
+            onClick={handleFilterClick}
+          >
             <Typography fontSize={12} fontWeight={700} color="text.secondary">
               Category
             </Typography>
             <Typography fontSize={16} fontWeight={400} color="text.secondary">
-              {selectedCategory}
+              {selectedCategory.join(" > ")}
             </Typography>
           </Box>
-          <Box
+          <IconButton
+            onClick={handleSearchSubmit}
             sx={{
               borderRadius: "100px",
               backgroundColor: "#CA323D",
@@ -162,9 +209,10 @@ const SearchBar = () => {
             }}
           >
             <SearchRoundedIcon sx={{ color: "white" }} />
-          </Box>
+          </IconButton>
         </Box>
       </Box>
+      <Filter />
 
       {/* Category Popover */}
       <CategoryPopover
@@ -180,7 +228,3 @@ const SearchBar = () => {
 };
 
 export default SearchBar;
-
-// CategoryPopover Component
-
-// ParentCategoryList Component

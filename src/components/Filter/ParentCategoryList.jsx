@@ -12,7 +12,7 @@ const ParentCategoryList = ({
   <List sx={{ width: "50%", padding: "0px" }}>
     {Object.keys(categories).map((parent) => (
       <ListItem
-        button
+        button="true"
         key={parent}
         onClick={() => onCategorySelect(parent)}
         onMouseEnter={() => onParentHover(parent)}
