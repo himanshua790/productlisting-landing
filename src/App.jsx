@@ -5,12 +5,10 @@ import { FilterProvider } from "./Context/FilterContextProvider";
 
 function App() {
   return (
-    <>
-      <FilterProvider>
-        <Navbar />
-        <ProductListing />
-      </FilterProvider>
-    </>
+    <FilterProvider>
+      <Navbar />
+      <ProductListing />
+    </FilterProvider>
   );
 }
 
