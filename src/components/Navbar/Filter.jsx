@@ -60,7 +60,7 @@ const Filter = () => {
             sx: {
               display: "flex",
               flexDirection: "column",
-              backgroundColor: "#443E3E",
+              backgroundColor: "#2b2828",
               height: "45rem",
               width: "35rem",
               borderRadius: "12px",
@@ -93,27 +93,49 @@ const Filter = () => {
         <Divider variant="fullWidth" sx={{ borderColor: "#515151" }} />
 
         {/* PriceRange component with temporary price range state */}
-        <PriceRange tempPriceRange={tempPriceRange} setTempPriceRange={setTempPriceRange} />
+        <PriceRange
+          tempPriceRange={tempPriceRange}
+          setTempPriceRange={setTempPriceRange}
+        />
 
         <Divider variant="middle" sx={{ borderColor: "#515151" }} />
 
         {/* PlatformFilter component with temporary platform state */}
-        <PlatformFilter tempPlatform={tempPlatform} setTempPlatform={setTempPlatform} />
+        <PlatformFilter
+          tempPlatform={tempPlatform}
+          setTempPlatform={setTempPlatform}
+        />
+        <Divider variant="fullWidth" sx={{ borderColor: "#515151" }} />
 
         <Box
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            padding: "20px",
+            padding: "16px 24px",
           }}
         >
-          <Button variant="text" onClick={clearFilters} sx={{ stroke: "red" }}>
+          <Button
+            variant="text"
+            onClick={clearFilters}
+            sx={{
+              textShadow: `
+      1px 1px 0px #000,   
+      -1px -1px 0px #000, 
+      1px -1px 0px #000,  
+      -1px 1px 0px #000   
+    `,
+            }}
+          >
             Clear All
           </Button>
           <Button
             variant="contained"
             color="primary"
             onClick={handleApplyFilters}
+            sx={{
+              width: "181px", // Fixed width
+              height: "48px", // Fixed height
+            }}
           >
             Apply
           </Button>

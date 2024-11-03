@@ -19,7 +19,7 @@ const ParentCategoryList = ({
         selected={selectedParent === parent}
         sx={{
           borderRadius: "100px",
-          "&:hover": { backgroundColor: "#655D5E" },
+          "&:hover": { backgroundColor: "#443e3e" },
         }}
       >
         <ListItemText primary={parent} />

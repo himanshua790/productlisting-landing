@@ -77,7 +77,7 @@ function getProducts() {
       name: `Product Name ${i + 1}`,
       creatorName: `Creator Name ${i + 1}`,
       rating: (Math.random() * 2 + 3).toFixed(1), // Random rating between 3.0 and 5.0
-      pricing: getRandomPrice(10000, 120000), // Random price between 10,000 and 120,000
+      pricing: getRandomPrice(10, 120), // Random price between 10 and 120
       pricingCurrency: "$",
       keywords,
     };

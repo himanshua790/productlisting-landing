@@ -7,10 +7,10 @@ export const FilterContext = createContext({
   filter: {
     keyword: "",
     category: [],
-    priceRange: [10000, 80000],
+    priceRange: [10,100],
     platform: [],
   },
-  tempPriceRange: [10000, 80000], // Temporary state for price range
+  tempPriceRange: [100, 100], // Temporary state for price range
   tempPlatform: [], // Temporary state for platform
   setFilterKeyword: () => {},
   setFilterCategory: () => {},

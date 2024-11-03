@@ -25,7 +25,7 @@ const CategoryPopover = ({
         sx: {
           display: "flex",
           padding: "16px",
-          backgroundColor: "#443E3E",
+          backgroundColor: "#2b2828",
           width: "444px",
           height: "352px",
           borderRadius: "32px",

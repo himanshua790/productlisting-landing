@@ -2,9 +2,9 @@ import { Box, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { FilterContext } from "../../Context/FilterContext";
 import PriceSlider, { ThumbComponent } from "../Slider/PriceSlider";
-const minDistance = 10000;
-const minSliderValue = 100;
-const maxSliderValue = 98000;
+const minDistance = 10;
+const minSliderValue = 10;
+const maxSliderValue = 100;
 
 export const PriceRange = () => {
   const { tempPriceRange, setTempPriceRange } = useContext(FilterContext);

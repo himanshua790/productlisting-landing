@@ -10,12 +10,12 @@ export const FilterProvider = ({ children }) => {
   const [filter, setFilter] = useState({
     keyword: "",
     category: [],
-    priceRange: [10000, 80000],
+    priceRange: [10, 100],
     platform: [],
   });
 
   // Temporary states for intermediate selections
-  const [tempPriceRange, setTempPriceRange] = useState([10000, 80000]);
+  const [tempPriceRange, setTempPriceRange] = useState([10, 100]);
   const [tempPlatform, setTempPlatform] = useState([]);
 
   // Update functions for individual filter criteria
